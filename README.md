@@ -53,4 +53,4 @@ State and runtime remain in ignored data directories. Commands include `tasks`, 
 
 ## Licensing
 
-Application reuse licensing is pending an owner decision. Public visibility alone does not grant general reuse or redistribution permission. The OpenClaw integration's existing MIT license remains in its own directory. Dependencies retain their respective licenses; they are downloaded during installation rather than vendored here.
+The application is licensed under MIT; see [LICENSE](LICENSE). You may deploy, modify and redistribute it subject to retaining the copyright and license notice. The OpenClaw integration's existing MIT notice remains in its own directory. Dependencies retain their respective licenses; they are downloaded during installation rather than vendored here.

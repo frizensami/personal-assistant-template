@@ -2,7 +2,7 @@
 
 This repository begins with fresh history and contains only reusable source, generic deployment configuration, documentation and synthetic tests. Operational state, credentials, logs, backups and original history are excluded.
 
-Preparation hardened missing-user authentication, disabled secret-bearing webhook access logs, restricted backup configuration to a separate state repository, prevented manual force from enabling disabled backups, removed personal deployment references and replaced contextual fixtures with generic examples. Existing integration license notices are retained. Application licensing remains pending an owner decision.
+Preparation hardened missing-user authentication, disabled secret-bearing webhook access logs, restricted backup configuration to a separate state repository, prevented manual force from enabling disabled backups, removed personal deployment references and replaced contextual fixtures with generic examples. Existing integration license notices are retained. The owner approved MIT licensing for the application; the root license and package metadata reflect that choice.
 
 Validation performed before publication:
 
