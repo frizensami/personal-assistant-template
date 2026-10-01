@@ -1,0 +1,16 @@
+.venv
+__pycache__
+.pytest_cache
+.coverage
+dist
+build
+.git
+.env
+state
+runtime
+.github-deploy-key
+.github-known-hosts
+.secrets
+
+data
+node_modules

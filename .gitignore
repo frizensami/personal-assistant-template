@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.coverage
+dist/
+build/
+.DS_Store
+runtime/*
+!runtime/.gitignore
+.env
+.github-deploy-key
+.github-known-hosts
+.secrets/
+
+# Never version operational data or credentials.
+state/
+data/
+*.log
+*.sqlite*
+*.db
+*.pem
+*.key
+.env.*
+!.env.example

@@ -1,0 +1,66 @@
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    init: true
+    working_dir: /workspace
+    env_file:
+      - .env
+    environment:
+      PA_TARGET: api
+      REPO_ROOT: /workspace
+      STATE_DIR: /state
+      RUNTIME_DIR: /runtime
+    command: ["personal-assistant", "serve", "--host", "0.0.0.0", "--port", "8000"]
+    volumes:
+      - ${APP_REPO_DIR:-./}:/workspace
+      - ${STATE_HOST_DIR:-./data/state}:/state
+      - ${RUNTIME_HOST_DIR:-./data/runtime}:/runtime
+    ports:
+      - "127.0.0.1:8000:8000"
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  worker:
+    build: .
+    restart: unless-stopped
+    init: true
+    working_dir: /workspace
+    env_file:
+      - .env
+    environment:
+      PA_TARGET: worker
+      REPO_ROOT: /workspace
+      STATE_DIR: /state
+      RUNTIME_DIR: /runtime
+    command: ["personal-assistant", "run-worker"]
+    volumes:
+      - ${APP_REPO_DIR:-./}:/workspace
+      - ${STATE_HOST_DIR:-./data/state}:/state
+      - ${RUNTIME_HOST_DIR:-./data/runtime}:/runtime
+    depends_on:
+      api:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+    command: ["/bin/sh", "/workspace/scripts/run-caddy.sh"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${APP_REPO_DIR:-./}:/workspace:ro
+      - ${RUNTIME_HOST_DIR:-./data/runtime}/caddy-data:/data
+      - ${RUNTIME_HOST_DIR:-./data/runtime}/caddy-config:/config
+    depends_on:
+      api:
+        condition: service_healthy

@@ -1,0 +1,10 @@
+services:
+  api:
+    environment:
+      PA_TARGET: local
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  worker:
+    environment:
+      PA_TARGET: local

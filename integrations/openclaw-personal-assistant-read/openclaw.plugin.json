@@ -1,0 +1,93 @@
+{
+  "id": "openclaw-personal-assistant-read",
+  "name": "Personal Assistant Read",
+  "description": "Read status, active self tasks, and ordinary scheduled reminders from a Personal Assistant API.",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "required": [
+      "baseUrl",
+      "token"
+    ],
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Personal Assistant API origin. HTTPS is required except for loopback HTTP."
+      },
+      "token": {
+        "anyOf": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "description": "Bearer token for the Personal Assistant read API."
+          },
+          {
+            "type": "object",
+            "required": [
+              "source",
+              "provider",
+              "id"
+            ],
+            "properties": {
+              "source": {
+                "type": "string",
+                "const": "store"
+              },
+              "provider": {
+                "type": "string",
+                "const": "default"
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "proxyUrl": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Optional loopback HTTP proxy used to reach a userspace Tailscale client."
+      }
+    },
+    "additionalProperties": false
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "categories": [
+    "tools"
+  ],
+  "configContracts": {
+    "secretInputs": {
+      "paths": [
+        {
+          "path": "token",
+          "expected": "string",
+          "ownerKind": "capability"
+        }
+      ]
+    }
+  },
+  "uiHints": {
+    "baseUrl": {
+      "label": "Personal Assistant API origin",
+      "help": "HTTPS origin only; loopback HTTP is allowed for local development."
+    },
+    "token": {
+      "label": "Personal Assistant read token",
+      "sensitive": true,
+      "help": "Use a dedicated token authorized only for the three fixed GET routes."
+    }
+  },
+  "contracts": {
+    "tools": [
+      "personal_assistant_status",
+      "personal_assistant_active_tasks",
+      "personal_assistant_scheduled_reminders"
+    ]
+  }
+}
